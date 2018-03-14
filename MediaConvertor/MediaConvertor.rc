@@ -88,9 +88,13 @@ EXSTYLE WS_EX_APPWINDOW
 CAPTION "MediaConvertor"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    PUSHBUTTON      "Open ...",IDC_BTN_OPEN,249,17,50,14
+    PUSHBUTTON      "Open ...",IDC_BTN_OPEN,263,17,50,14
     LTEXT           "File",IDC_STATIC_FILE,19,20,12,8
-    COMBOBOX        IDC_COMBO_FILE,43,17,151,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_FILE,71,18,151,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Output codec",IDC_STATIC,19,46,44,8
+    COMBOBOX        IDC_COMBO_CODEC,71,44,151,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Convert",IDC_BTN_CONVERT,263,60,50,14
+    PUSHBUTTON      "Browse",IDC_BTN_BROWSE,263,38,50,14
 END
 
 
@@ -116,13 +120,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "TODO: <Company name>"
-            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "CompanyName", "ZacJiang, Taiwan, Teipei."
+            VALUE "FileDescription", "This tool was developed by ZacJiang."
             VALUE "FileVersion", "1.0.0.1"
             VALUE "InternalName", "MediaConvertor.exe"
-            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "LegalCopyright", "ZacJiang.  All rights reserved."
             VALUE "OriginalFilename", "MediaConvertor.exe"
-            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductName", "MediaConvert"
             VALUE "ProductVersion", "1.0.0.1"
         END
     END

@@ -9,6 +9,7 @@
 #define new DEBUG_NEW
 #endif
 
+CVideoProcess	g_oVideoProcess;
 
 // CAboutDlg dialog used for App About
 
@@ -64,6 +65,9 @@ BEGIN_MESSAGE_MAP(CMediaConvertorDlg, CDialog)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_BTN_OPEN, &CMediaConvertorDlg::OnBnClickedBtnOpen)
 	ON_CBN_SELCHANGE(IDC_COMBO_FILE, &CMediaConvertorDlg::OnCbnSelchangeComboFile)
+	ON_BN_CLICKED(IDC_BTN_CONVERT, &CMediaConvertorDlg::OnBnClickedBtnConvert)
+	ON_BN_CLICKED(IDC_BTN_BROWSE, &CMediaConvertorDlg::OnBnClickedBtnBrowse)
+	ON_CBN_SELCHANGE(IDC_COMBO_CODEC, &CMediaConvertorDlg::OnCbnSelchangeComboCodec)
 END_MESSAGE_MAP()
 
 
@@ -96,7 +100,14 @@ BOOL CMediaConvertorDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	// TODO: Add extra initialization here
+	// Create codec combo box
+	CComboBox* pCodecComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_CODEC);
+	pCodecComboBox->AddString(L"MP4");
+	pCodecComboBox->AddString(L"MP3");
+	pCodecComboBox->SetCurSel(0);
+
+	// init
+	m_nCurrentId = 0;
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -153,6 +164,9 @@ HCURSOR CMediaConvertorDlg::OnQueryDragIcon()
 
 void CMediaConvertorDlg::OnBnClickedBtnOpen()
 {
+	// Clear all
+	m_vOP.clear();
+
 	// Record current path
 	wchar_t szCurrentPath[MAX_PATH] = {0};
 	GetCurrentDirectory(MAX_PATH, szCurrentPath);
@@ -191,6 +205,12 @@ void CMediaConvertorDlg::OnBnClickedBtnOpen()
 			fileNameArray[iCtr] = FileDlg.GetNextPathName(fileNamesPosition);
 			pFileComboBox->AddString(fileNameArray[iCtr]);
 
+			// Set initial parameters
+			COperationParam OP;
+			OP.SetFilePath(fileNameArray[iCtr]);
+			OP.SetFileName(OP.GetOutputName(fileNameArray[iCtr].GetBuffer()));
+			m_vOP.push_back(OP);
+
 			// Next item in list
 			iCtr++;
 		}
@@ -204,7 +224,50 @@ void CMediaConvertorDlg::OnBnClickedBtnOpen()
 
 }
 
+void CMediaConvertorDlg::OnBnClickedBtnBrowse()
+{
+	CString strDefaultOutputPath = L".\\ConvertedVideo";
+	if (ShellExecute(NULL, L"open", strDefaultOutputPath.GetBuffer(), NULL, NULL, SW_SHOWNORMAL) != 0)
+	{
+		CreateDirectory(strDefaultOutputPath.GetBuffer(), NULL);
+		ShellExecute(NULL, L"open", strDefaultOutputPath.GetBuffer(), NULL, NULL, SW_SHOWNORMAL);
+	}
+}
+
+void CMediaConvertorDlg::OnBnClickedBtnConvert()
+{
+	CComboBox* pFileComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_FILE);
+
+	if (pFileComboBox->GetCount() > 0)
+	{
+		CString sFilePath;
+		pFileComboBox->GetLBText(pFileComboBox->GetCurSel(), sFilePath);
+
+		// Convert process
+		g_oVideoProcess.Convert(m_vOP[m_nCurrentId]);
+	}
+}
+
 void CMediaConvertorDlg::OnCbnSelchangeComboFile()
 {
-	// TODO: Add your control notification handler code here
+	m_nCurrentId = ((CComboBox*)GetDlgItem(IDC_COMBO_FILE))->GetCurSel();
+	OnCbnSelchangeComboCodec();
+}
+
+void CMediaConvertorDlg::OnCbnSelchangeComboCodec()
+{
+	if (m_vOP.size() > 0)
+	{
+		switch (((CComboBox *)GetDlgItem(IDC_COMBO_CODEC))->GetCurSel())
+		{
+		case 0:
+			m_vOP[m_nCurrentId].SetOutputCodec(MP4);
+			break;
+		case 1:
+			m_vOP[m_nCurrentId].SetOutputCodec(MP3);
+			break;
+		default:
+			break;
+		}
+	}
 }
