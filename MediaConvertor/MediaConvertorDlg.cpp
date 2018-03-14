@@ -63,6 +63,7 @@ BEGIN_MESSAGE_MAP(CMediaConvertorDlg, CDialog)
 	ON_WM_QUERYDRAGICON()
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_BTN_OPEN, &CMediaConvertorDlg::OnBnClickedBtnOpen)
+	ON_CBN_SELCHANGE(IDC_COMBO_FILE, &CMediaConvertorDlg::OnCbnSelchangeComboFile)
 END_MESSAGE_MAP()
 
 
@@ -201,4 +202,9 @@ void CMediaConvertorDlg::OnBnClickedBtnOpen()
 	SetCurrentDirectory(szCurrentPath);
 
 
+}
+
+void CMediaConvertorDlg::OnCbnSelchangeComboFile()
+{
+	// TODO: Add your control notification handler code here
 }
