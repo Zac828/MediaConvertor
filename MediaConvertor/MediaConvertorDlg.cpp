@@ -158,7 +158,7 @@ void CMediaConvertorDlg::OnBnClickedBtnOpen()
 
 	// Open dialog for file selection
 	wchar_t strFilter[] = { L"Video (*.mp4, *.wmv, *.avi)|*.mp4; *.wmv; *.avi|Audio (*.mp3)|*.mp3|All files (*.*)|*.*|" };
-    CFileDialog FileDlg(TRUE, L"*", NULL, OFN_ALLOWMULTISELECT, strFilter);
+	CFileDialog FileDlg(TRUE, L"*", NULL, OFN_ALLOWMULTISELECT, strFilter);
 	const DWORD numberOfFileNames = 100;
 	const DWORD fileNameMaxLength = MAX_PATH + 1;
 	const DWORD bufferSize = (numberOfFileNames * fileNameMaxLength) + 1;
@@ -179,9 +179,9 @@ void CMediaConvertorDlg::OnBnClickedBtnOpen()
 
 	// Create array for file names.
 	CString fileNameArray[numberOfFileNames];
-    if( FileDlg.DoModal() == IDOK )
-    {
-        // Retrieve file name(s).
+	if( FileDlg.DoModal() == IDOK )
+	{
+	    // Retrieve file name(s).
 		POSITION fileNamesPosition = FileDlg.GetStartPosition();
 		int iCtr = 0;
 		int iCountFilePPT = 0;
@@ -193,8 +193,8 @@ void CMediaConvertorDlg::OnBnClickedBtnOpen()
 			// Next item in list
 			iCtr++;
 		}
-    }
-    delete[] filenamesBuffer;
+	}
+	delete[] filenamesBuffer;
 	pFileComboBox->SetCurSel(0);
 
 	// Set path back. If not set path back, the output file will be located on the same path of source file.
