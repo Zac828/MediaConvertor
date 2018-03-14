@@ -209,6 +209,7 @@ void CMediaConvertorDlg::OnBnClickedBtnOpen()
 			COperationParam OP;
 			OP.SetFilePath(fileNameArray[iCtr]);
 			OP.SetFileName(OP.GetOutputName(fileNameArray[iCtr].GetBuffer()));
+			OP.SetOutputCodec(MP4);
 			m_vOP.push_back(OP);
 
 			// Next item in list
@@ -251,6 +252,11 @@ void CMediaConvertorDlg::OnBnClickedBtnConvert()
 void CMediaConvertorDlg::OnCbnSelchangeComboFile()
 {
 	m_nCurrentId = ((CComboBox*)GetDlgItem(IDC_COMBO_FILE))->GetCurSel();
+
+	// Set opration
+	ReadOptionSetting();
+
+	// record codec
 	OnCbnSelchangeComboCodec();
 }
 
@@ -270,4 +276,16 @@ void CMediaConvertorDlg::OnCbnSelchangeComboCodec()
 			break;
 		}
 	}
+}
+
+HRESULT CMediaConvertorDlg::ReadOptionSetting()
+{
+	HRESULT hr = S_OK;
+
+	if (m_vOP.size() > 0)
+	{
+		((CComboBox *)GetDlgItem(IDC_COMBO_CODEC))->SetCurSel((int)m_vOP[m_nCurrentId].GetOutputCodec());
+	}
+
+	return hr;
 }

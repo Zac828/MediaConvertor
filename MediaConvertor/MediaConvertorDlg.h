@@ -21,6 +21,9 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
+private:
+	HRESULT ReadOptionSetting();
+
 
 // Implementation
 protected:
