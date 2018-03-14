@@ -62,6 +62,7 @@ BEGIN_MESSAGE_MAP(CMediaConvertorDlg, CDialog)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	//}}AFX_MSG_MAP
+	ON_BN_CLICKED(IDC_BTN_OPEN, &CMediaConvertorDlg::OnBnClickedBtnOpen)
 END_MESSAGE_MAP()
 
 
@@ -148,3 +149,56 @@ HCURSOR CMediaConvertorDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+void CMediaConvertorDlg::OnBnClickedBtnOpen()
+{
+	// Record current path
+	wchar_t szCurrentPath[MAX_PATH] = {0};
+	GetCurrentDirectory(MAX_PATH, szCurrentPath);
+
+	// Open dialog for file selection
+	wchar_t strFilter[] = { L"Video (*.mp4, *.wmv, *.avi)|*.mp4; *.wmv; *.avi|Audio (*.mp3)|*.mp3|All files (*.*)|*.*|" };
+    CFileDialog FileDlg(TRUE, L"*", NULL, OFN_ALLOWMULTISELECT, strFilter);
+	const DWORD numberOfFileNames = 100;
+	const DWORD fileNameMaxLength = MAX_PATH + 1;
+	const DWORD bufferSize = (numberOfFileNames * fileNameMaxLength) + 1;
+    
+	// Initialize beginning and end of buffer.
+	TCHAR* filenamesBuffer = new TCHAR[bufferSize];
+	filenamesBuffer[0] = NULL;
+	filenamesBuffer[bufferSize-1] = NULL;
+
+	// Attach buffer to OPENFILENAME member.
+	FileDlg.m_ofn.lpstrFile = filenamesBuffer;
+	FileDlg.m_ofn.nMaxFile = bufferSize;
+
+	CComboBox* pFileComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_FILE);
+	int nCount = pFileComboBox->GetCount();				// Clear all old items
+	for (int i = nCount - 1; i >= 0; i--)
+		pFileComboBox->DeleteString(i);
+
+	// Create array for file names.
+	CString fileNameArray[numberOfFileNames];
+    if( FileDlg.DoModal() == IDOK )
+    {
+        // Retrieve file name(s).
+		POSITION fileNamesPosition = FileDlg.GetStartPosition();
+		int iCtr = 0;
+		int iCountFilePPT = 0;
+		while(fileNamesPosition != NULL)
+		{
+			fileNameArray[iCtr] = FileDlg.GetNextPathName(fileNamesPosition);
+			pFileComboBox->AddString(fileNameArray[iCtr]);
+
+			// Next item in list
+			iCtr++;
+		}
+    }
+    delete[] filenamesBuffer;
+	pFileComboBox->SetCurSel(0);
+
+	// Set path back. If not set path back, the output file will be located on the same path of source file.
+	SetCurrentDirectory(szCurrentPath);
+
+
+}
