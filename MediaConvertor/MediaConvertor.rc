@@ -82,19 +82,22 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,16,WS_GROUP
 END
 
-IDD_MEDIACONVERTOR_DIALOG DIALOGEX 0, 0, 320, 200
+IDD_MEDIACONVERTOR_DIALOG DIALOGEX 0, 0, 353, 217
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "MediaConvertor"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    PUSHBUTTON      "Open ...",IDC_BTN_OPEN,263,17,50,14
-    LTEXT           "File",IDC_STATIC_FILE,19,20,12,8
-    COMBOBOX        IDC_COMBO_FILE,71,18,151,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Output codec",IDC_STATIC,19,46,44,8
-    COMBOBOX        IDC_COMBO_CODEC,71,44,151,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Convert",IDC_BTN_CONVERT,263,60,50,14
-    PUSHBUTTON      "Browse",IDC_BTN_BROWSE,263,38,50,14
+    PUSHBUTTON      "Open ...",IDC_BTN_OPEN,235,17,111,14
+    LTEXT           "File",IDC_STATIC_FILE,19,20,47,8
+    COMBOBOX        IDC_COMBO_FILE,71,18,145,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Output codec",IDC_STATIC_CODEC,19,46,48,23
+    COMBOBOX        IDC_COMBO_CODEC,71,44,145,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Convert",IDC_BTN_CONVERT,235,60,111,14
+    PUSHBUTTON      "Browse",IDC_BTN_BROWSE,235,39,111,14
+    GROUPBOX        "Option",IDC_STATIC_OPTION,234,85,112,125
+    LTEXT           "Language",IDC_TXT_LANG,241,101,32,8
+    COMBOBOX        IDC_COMBO_LANG,281,99,65,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
 END
 
 
@@ -156,9 +159,9 @@ BEGIN
     IDD_MEDIACONVERTOR_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 313
+        RIGHTMARGIN, 346
         TOPMARGIN, 7
-        BOTTOMMARGIN, 193
+        BOTTOMMARGIN, 210
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -172,9 +175,46 @@ END
 STRINGTABLE 
 BEGIN
     IDS_ABOUTBOX            "&About MediaConvertor..."
+    IDS_TCH_LANGUAGE        "語言："
+    IDS_TCH_FILE            "檔案："
+    IDS_TCH_CODEC           "輸出格式："
+    IDS_TCH_OPEN            "打開 ..."
+    IDS_TCH_BROWSE          "瀏覽"
+    IDS_TCH_CONVERT         "轉檔"
+    IDS_TCH_OPTION          "選項"
 END
 
 #endif    // Chinese (Taiwan) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_ABOUTBOX            "&About MediaConvertor..."
+    IDS_EN_LANGUAGE         "Language:"
+    IDS_EN_FILE             "File:"
+    IDS_EN_CODEC            "Output codec:"
+    IDS_EN_OPEN             "Open ..."
+    IDS_EN_BROWSE           "Browse"
+    IDS_EN_CONVERT          "Convert"
+    IDS_EN_OPTION           "Option"
+END
+
+#endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -8,6 +8,20 @@
 
 using namespace std;
 
+#define LENGTH_FOR_STRING_TABLE 160
+
+enum LanguageType
+{
+	DT_LANG_EN,
+	DT_LANG_SCH,
+	DT_LANG_TCH,
+	DT_LANG_JP,
+	DT_LANG_GE,
+	DT_LANG_FR,
+	DT_LANG_ES,
+	DT_LANG_KO
+};
+
 // CMediaConvertorDlg dialog
 class CMediaConvertorDlg : public CDialog
 {
@@ -24,6 +38,11 @@ public:
 private:
 	HRESULT ReadOptionSetting();
 
+	// for multi-language
+	int			FindSystemLang();
+	void		LocalizeDlg();
+	wchar_t*	GetStringFromTable(int nId);
+
 
 // Implementation
 protected:
@@ -31,6 +50,8 @@ protected:
 
 	int	m_nCurrentId;
 	vector<COperationParam> m_vOP;
+
+	LanguageType m_LangType;
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
@@ -44,4 +65,5 @@ public:
 	afx_msg void OnBnClickedBtnConvert();
 	afx_msg void OnBnClickedBtnBrowse();
 	afx_msg void OnCbnSelchangeComboCodec();
+	afx_msg void OnCbnSelchangeComboLang();
 };

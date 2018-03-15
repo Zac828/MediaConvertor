@@ -25,20 +25,20 @@ HRESULT CVideoProcess::Convert(COperationParam p_OP)
 }
 
 ////////////////////////////////////////////////////////////////
-//					Thread for ffmpeg crop					  //
+//					Thread for ffmpeg convert				  //
 ////////////////////////////////////////////////////////////////
 
 void CVideoProcess::ThreadConvert(LPVOID lpParam)
 {
 	CommandParam* pCP = (CommandParam*)lpParam;
 
-	// handle output format
+	// Handle output format
 	CString sFormat = L"mp4";
 	if (pCP->Codec == MP3)
 		sFormat = L"mp3";
 
 	CString sCommand = L"";
-	sCommand.Format(L"ffmpeg -i \"%s\" -pix_fmt yuv420p -c:v libx264 -c:a mp3 \".\\ConvertedVideo\\%s.%s\"", pCP->sFilePath, pCP->sFileName, sFormat);
+	sCommand.Format(L"ffmpeg -i \"%s\" -pix_fmt yuv420p -c:v libx264 -c:a libmp3lame \".\\ConvertedVideo\\%s.%s\"", pCP->sFilePath, pCP->sFileName, sFormat);
 
 	// Save command
 	WCHAR wcslog[1024] = {0};
@@ -58,7 +58,7 @@ void CVideoProcess::ThreadConvert(LPVOID lpParam)
 	catch (...)
 	{
 	}
-
+	// Create output folder
 	_wsystem(L"cmd.exe /c mkdir ConvertedVideo");
 	// Run command
 	int ret = _wsystem(sCommand);
