@@ -6,11 +6,13 @@ struct CommandParam
 	CString			sFilePath;
 	CString			sFileName;
 	MEDIA_CODEC		Codec;
+	BOOL			bHorizontalMirror;
 	CommandParam() 
 	{
 		sFilePath = L"";
 		sFileName = L"";
 		Codec = MP4;
+		bHorizontalMirror = FALSE;
 	}
 };
 
@@ -23,7 +25,8 @@ public:
 	HRESULT Convert(COperationParam p_OP);
 
 	static void	ThreadConvert(LPVOID lpParam);
+	int			GetMediaDurationInSec(wchar_t* p_wcsFilePath);
 
 private:
-	CString GetOutputName(wchar_t* p_wcsFilePath);
+	CString		ExecCommandWithReturnStr(const wchar_t* wcsCmd);
 };

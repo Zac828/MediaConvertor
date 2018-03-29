@@ -66,4 +66,5 @@ public:
 	afx_msg void OnBnClickedBtnBrowse();
 	afx_msg void OnCbnSelchangeComboCodec();
 	afx_msg void OnCbnSelchangeComboLang();
+	afx_msg void OnBnClickedCheckFilp();
 };

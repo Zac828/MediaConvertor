@@ -3,6 +3,8 @@
 
 COperationParam::COperationParam(void)
 {
+	m_bHorizontalMirror = FALSE;
+	m_codec = MP4;
 }
 
 COperationParam::~COperationParam(void)
